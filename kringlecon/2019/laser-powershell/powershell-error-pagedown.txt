@@ -1,0 +1,25 @@
+Oops, something went wrong.  Please report this bug with the details below.
+Report on GitHub: https://github.com/lzybkr/PSReadLine/issues/new
+-----------------------------------------------------------------------
+Last 200 Keys:
+```
+ UpArrow Space - R u Tab Enter
+ UpArrow LeftArrow LeftArrow LeftArrow LeftArrow LeftArrow DownArrow DownArrow DownArrow Home # Enter
+ S t a r t - P r o c e s s Space - F i l e P a t h Space " p o w e r s h e l l " Space - V e r b Space R u n A s Enter
+ h i s t o r y Enter
+ G e t - C o n Tab Tab t Tab Space R i Tab Enter
+ G e t Backspace Backspace Backspace f Backspace Backspace G e t - C h i Tab Space ~ / Backspace Backspace - = Backspace R E Tab c Tab Space ~ / Tab Tab d e Tab Space | Space Backspace Backspace Backspace Home f o r Space Backspace Backspace Backspace Backspace PageDown DownArrow DownArrow Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace Backspace UpArrow DownArrow PageDown
+```
+
+Exception:
+```
+System.PlatformNotSupportedException: Operation is not supported on this platform.
+   at System.ConsolePal.SetWindowPosition(Int32 left, Int32 top)
+   at System.Console.SetWindowPosition(Int32 left, Int32 top)
+   at Microsoft.PowerShell.Internal.VirtualTerminal.SetWindowPosition(Int32 left, Int32 top)
+   at Microsoft.PowerShell.PSConsoleReadLine.ScrollDisplayDown(Nullable`1 key, Object arg)
+   at Microsoft.PowerShell.PSConsoleReadLine.ProcessOneKey(ConsoleKeyInfo key, Dictionary`2 dispatchTable, Boolean ignoreIfNoAction, Object arg)
+   at Microsoft.PowerShell.PSConsoleReadLine.InputLoop()
+   at Microsoft.PowerShell.PSConsoleReadLine.ReadLine(Runspace runspace, EngineIntrinsics engineIntrinsics, CancellationToken cancellationToken)
+```
+-----------------------------------------------------------------------
