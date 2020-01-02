@@ -174,3 +174,4 @@ For hints on achieving this objective, please visit the NetWars room and talk wi
 
     ```
     Let's follow "https://gallery.technet.microsoft.com/scriptcenter/PowerShell-Script-410ef9df" to decrypt in powershell. Or https://www.pycryptodome.org/en/latest/src/cipher/des.html?highlight=des#module-Crypto.Cipher.DES to decrypt in python (probably better)
+1. And... with the script we made, it works! We decrypted the PDF.
