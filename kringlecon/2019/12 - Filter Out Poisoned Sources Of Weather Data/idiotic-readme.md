@@ -184,3 +184,250 @@ I want my own holiday, National Tooth Fairy Day, to be the most popular holiday 
     The ConvertTo-CSV helped the sorting for some reason :D
 
     I think this is the majority of the data, let's go and find the IPs associated with these bad requests, and also map to the bad user agents.
+    ... fast forward 1 week
+1. I created the powershell script. The resulting Regex looked like this:
+    ```powershell
+    "(')|(>)|(<)|(\.\.)|( or )|" + '(")|(%)|(\./\|)|(\(\))|\||(/etc)|(\$)|(;:)'
+    ```
+    The overall script:
+    ```powershell
+    $json_file = gc .\http.log | ConvertFrom-Json
+    $superRegex = "(')|(>)|(<)|(\.\.)|( or )|" + '(")|(%)|(\./\|)|(\(\))|\||(/etc)|(\$)|(;:)'
+    $knownBadRequests = $json_file | Where-Object {$_.host -Match "$superRegex" -or $_.uri -Match "$superRegex" -or $_.user_agent -Match "$superRegex" -or $_.username -Match "$superRegex"}
+    ([System.Collections.Generic.HashSet[string]] $useragent_set = $knownBadRequests.user_agent)
+    ([System.Collections.Generic.HashSet[string]] $ip_set = $knownBadRequests."id.orig_h")
+    $otherBadRequests = $json_file | Where-Object {$_.user_agent -in $useragent_set -or $_."id.orig_h" -in $ip_set}
+
+    # taking a hint from https://pollev.github.io/Kringlecon-2-Turtle-Doves/#filter-out-poisoned-sources-of-weather-data, we find that the most common UAs have to be filtered out.
+    $good_user_agents = $otherBadRequests.user_agent | group | sort -Property Count -Descending | select -First 4 | select Name 
+    for ($i = 0; $i -lt $good_user_agents.Count; $i++) { $good_user_agents[$i] = [string] $good_user_agents[$i].Name }
+    $otherBadRequests | where {$_.user_agent -ne $good_user_agents[0] -and $_.user_agent -ne $good_user_agents[1] -and $_.user_agent -ne $good_user_agents[2] -and $_.user_agent -ne $good_user_agents[3]} | select "id.orig_h" | measure
+    $otherBadRequests | where {$_.user_agent -ne $good_user_agents[0] -and $_.user_agent -ne $good_user_agents[1] -and $_.user_agent -ne $good_user_agents[2] -and $_.user_agent -ne $good_user_agents[3]} | select "id.orig_h"
+    ```
+    Then we take the IPs, place commas after each one using multi-select, and get a success! RID:0807198508261964.
+    Alas, I was unable to solve this over the course of the challenge, I did not think to group the UAs and filter by that.
+    Also, there were only 97 IPs instead of 100 as the challenge described. But special thanks to https://pollev.github.io/Kringlecon-2-Turtle-Doves/#filter-out-poisoned-sources-of-weather-data for posting a writeup so I could finally solve this; the hint to filter the most common UAs was all that was needed.j
+1. Placing the RID in opens the door to the bell tower. We see that the Tooth fairy is now in a prison outfit, and tells us:
+    ```
+    You foiled my dastardly plan! I’m ruined!
+    And I would have gotten away with it too, if it weren't for you meddling kids!    
+    ```
+    Meanwhile, Krampus tells us:
+    ```
+    Congratulations on a job well done!
+    Oh, by the way, I won the Frido Sleigh contest.
+    I got 31.8% of the prizes, though I'll have to figure that out.
+    ```
+    And Santa tells us:
+    ```
+    You did it! Thank you! You uncovered the sinister plot to destroy the holiday season!
+
+    Through your diligent efforts, we’ve brought the Tooth Fairy to justice and saved the holidays!
+
+    Ho Ho Ho!
+
+    The more I laugh, the more I fill with glee.
+
+    And the more the glee,
+
+    The more I'm a merrier me!
+
+    Merry Christmas and Happy Holidays.
+    ```
+    A fitting end to the challenge.
+1. Unfortunately when I had to "phone a friend" and look at the Pollev walkthrough, I saw the letter mentioned, and had that part spoiled (to be honest I'd have probably missed it).
+
+    Letter text:
+    ```
+    Thankfully, I didn’t have to
+    implement my plan by myself!
+    Jack Frost promised to use his
+    wintry magic to help me subvert
+    Santa’s horrible reign of holiday
+    merriment NOW and FOREVER!
+    ```
+    Which as the walkthrough pointed out, probably means we'll be seeing a certain fellow nipping at our noses next year as the villain of Kringle Con. :D
+
+    Merry Christmas & Happy New Year!
+
+    ListsOfArrays -> "lolz"
+
+# Last note:
+I do want to thank all the people who made Kringlecon so great!
+Thanks and hope to play again next year, great job!
+Here were the credits that the game ended with:
+
+# Credits
+
+## SANS Holiday Hack Challenge 2019
+## KringleCon 2: Turtle Doves
+## Direction
+
+Ed Skoudis
+
+## Technical Lead
+
+Joshua Wright
+
+## Narrative / Story
+
+Ed Skoudis
+
+## World Builder Lead
+
+Evan Booth
+
+## Programming
+
+Evan Booth
+
+Ron Bowes
+
+Chris Davis
+
+Chris Elgee
+
+Matt Toussain
+
+Joshua Wright
+
+## System Builds & Administration
+
+Tom Hessman
+
+Daniel Pendolino
+
+## Artwork
+
+Evan Booth
+
+Chris Davis
+
+Chris Elgee
+
+Kimberly Elliott
+
+Brian Hostetler
+
+Annie Royal
+
+Ed Skoudis
+
+## Challenge Development
+
+Jim Apger
+
+Evan Booth
+
+Ron Bowes
+
+James Brodsky
+
+Gary Burgett
+
+Andy Cooper
+
+Chris Davis
+
+Chris Elgee
+
+Tim Frazier
+
+Dave Herrald
+
+Ryan Kovar
+
+Marcus Laferrera
+
+Brett Leaver
+
+Lily Lee
+
+Devian Ollam
+
+Daniel Pendolino
+
+John Stoner
+
+Matt Toussain
+
+David Veuve
+
+Robert Wagner
+
+Joshua Wright
+
+## Soundtrack
+
+Dual Core
+
+Ninjula
+
+Josh Skoudis
+
+## Website Design
+
+Tom Hessman
+
+## Conference Scheduler and Speaker Wrangler
+
+Chris Fleener
+
+## Testing and Feedback
+
+Ron Bowes
+
+Chris Elgee
+
+Tom Hessman
+
+Brian Hostetler
+
+Ryan Huffer
+
+Daniel Pendolino
+
+Lynn Schifano
+
+Ed Skoudis
+
+Joshua Wright
+
+## KringleCon Speakers
+
+Ed Skoudis - Host
+
+John Strand - Keynote
+
+Mark Baggett
+
+Ron Bowes
+
+James Brodsky
+
+Lesley Carhart
+
+Ian Coldwater
+
+Chris Davis
+
+Chris Elgee
+
+John Hammond
+
+Dave Kennedy
+
+Katie Knowles
+
+Heather Mahalik
+
+Deviant Ollam
+
+Sn0w
+## Marketing
+Chris Fleener
+## Sponsored Hosting Services
+Google
+## Special Thanks
+The SANS Institute
+© Copyright SANS Institute, 2019. All Rights Reserved.
