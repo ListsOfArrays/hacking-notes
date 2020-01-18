@@ -4,7 +4,7 @@ Someone sent a threatening letter to Elf University. What is the first word in A
 
 # Solve Process
 
-1. Walking around the quad, we find a clickable item hidden in the top-left, which looks like a letter.
+1. Walking around the quad, we find a clickable item hidden in the top-left, which looks like a letter. ![Picture where the letter was located, in the top-left of the Quad.](redacted-location-the-quad.png "picture of letter location")
 1. Opening the letter, we find a PDF with an image "redaction".
 1. Highlighting the text and copying it reveals the subject. If we couldn't highlight the text, we could've extracted it with command line tools for PDFs.
 1. "Subject: DEMAND: Spread Holiday Cheer to Other Holidays"

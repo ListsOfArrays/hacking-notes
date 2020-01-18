@@ -5,7 +5,7 @@ We're seeing attacks against the Elf U domain! Using the event log data, identif
 # Solve Process
 
 1. The first thing we're going to be looking for is bad login attempts. Let's look up what a bad login attempt number is on Windows... and we find it's [4625 'An account failed to log on.'](https://social.technet.microsoft.com/forums/windowsserver/en-US/6a2a00e0-0768-40e6-9951-f2b55f9a6491/what-event-id-captures-bad-logon-events-in-windows-2008).
-1. Now, with that, we look up what powershell to parse an event log. [That's not here] (https://devblogs.microsoft.com/scripting/use-powershell-to-parse-event-log-for-shutdown-events/), so we have to look it up again and find [this](https://devblogs.microsoft.com/scripting/use-powershell-to-parse-saved-event-logs-for-errors/) instead.
+1. Now, with that, we look up what powershell to parse an event log. [That's not here](https://devblogs.microsoft.com/scripting/use-powershell-to-parse-event-log-for-shutdown-events/), so we have to look it up again and find [this](https://devblogs.microsoft.com/scripting/use-powershell-to-parse-saved-event-logs-for-errors/) instead.
 1. Now we have ```Get-WinEvent -Path .\Security.evtx,``` so we run that and find... a lot of 4648s and 4625s. So we must be looking for an account that had a 4624 (successful login) instead!
 1. Now with that info, we make the following script:
     ```powershell
